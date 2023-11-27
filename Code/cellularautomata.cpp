@@ -100,30 +100,21 @@ int cellularAutomata::calcNextCell(int x, int y)
     int result = 0;
 
     int nextX = x;
-    int nextY = y-1;
+    int nextY = (sizey + y - 1) % sizey;
+    result |= field[nextY][nextX] << 4;
 
-    if (nextY < 0)
-        nextY += sizey;
-    result |= field[nextY][nextX]<<4;
-
-    nextX = x-1;
+    nextX = (sizex + x - 1) % sizex;
     nextY = y;
-    if (nextX < 0)
-        nextX += sizex;
     result|= field[nextY][nextX]<<3;
 
     result|= field[y][x]<<2;
 
-    nextX = x+1;
+    nextX = (sizex + x + 1) % sizex;
     nextY = y;
-    if (nextX > sizex - 1)
-        nextX -= sizey;
     result |= field[nextY][nextX]<<1;
 
     nextX = x;
-    nextY = y+1;
-    if (nextY > sizey - 1)
-        nextY -=  sizey;
+    nextY = (sizey + y + 1) % sizey;
     result |= field[nextY][nextX]<<0;
 
     return result;
